@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const path = require('path');
 const app = express();
-const port = 80; //80番
+const port = 8080; //8080番
 
 
 // MongoDB接続情報
