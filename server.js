@@ -1,53 +1,57 @@
 const fs = require('fs');
 const express = require('express');
 const { MongoClient } = require('mongodb');
-const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const path = require('path');
 const app = express();
-const port = 3000; //ポート番号3000
-
+const port = 3000; // サーバーのポート番号
 
 // MongoDB接続情報
-const url = 'mongodb://localhost:27017';
+const mongoUrl = 'mongodb://localhost:27017'; // MongoDBのURL
 const dbName = 'student'; // データベース名
 const collectionName = 'student1'; // コレクション名
 
-// Google Sheets APIの認証
+// Google Sheets APIの認証情報
 let auth;
 
-
-// 静的ファイルを提供する設定
+// 静的ファイルの提供
 app.use(express.static(path.join(__dirname, 'public')));
 
 // POSTリクエストのパース設定
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// ルートへのリクエストに対して、`index.html` を返す
+// ルートパスへのアクセスに対して、index.htmlを返す
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-
-
+// Google Sheetsの認証情報を読み込み
 fs.readFile('credentials.json', (err, content) => {
-    if (err) return console.error('Error loading client secret file:', err);
+    if (err) {
+        console.error('Error loading client secret file:', err);
+        return;
+    }
+    // 認証プロセスの開始
     authorize(JSON.parse(content), appendData);
 });
 
+// 認証プロセスを行う関数
 function authorize(credentials) {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-    // 保存されたトークンを使用して認証
+    // 保存されたトークンを使って認証
     fs.readFile('token.json', (err, token) => {
-        if (err) return getNewToken(oAuth2Client);
+        if (err) {
+            return getNewToken(oAuth2Client);
+        }
         oAuth2Client.setCredentials(JSON.parse(token));
-        auth = oAuth2Client;
+        auth = oAuth2Client; // 認証オブジェクトを保持
     });
 }
 
+// 新しいトークンを取得する関数
 function getNewToken(oAuth2Client) {
     const authUrl = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -56,44 +60,34 @@ function getNewToken(oAuth2Client) {
     console.log('Authorize this app by visiting this url:', authUrl);
 }
 
-
-// POSTリクエストで受け取ったデータをGoogle Sheetsに書き込む
+// 学籍番号と出席情報をGoogle Sheetsに書き込むAPI
 app.post('/record-attendance', (req, res) => {
-    const studentId = req.body.studentId;//学籍番号の取得
-    const timestamp = req.body.datejp;  // タイムスタンプを生成
-    const studentName = req.body.studentName;//名前の取得
+    const { studentId, studentName, datejp: timestamp } = req.body; // リクエストからデータを取得
 
-
-
-
-    // const timestamp = new Date().toISOString();  // タイムスタンプを生成
-
+    // Google Sheetsにデータを追加
     appendData(studentId, timestamp, studentName)
         .then(() => {
             res.status(200).send('Attendance recorded successfully!');
         })
         .catch((err) => {
             console.error('Error recording attendance:', err);
-            //res.status(500).send('Failed to record attendance.');
+            res.status(500).send('Failed to record attendance.');
         });
 });
 
-
-
-// Google Sheetsにデータを追加
+// Google Sheetsにデータを追加する関数
 function appendData(studentId, timestamp, studentName) {
     const sheets = google.sheets({ version: 'v4', auth });
-    const spreadsheetId = '1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw';  // Google SheetsのIDを指定
-    const range = 'Sheet1!A1';  // 書き込む範囲
+    const spreadsheetId = '1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw'; // スプレッドシートID
+    const range = 'Sheet1!A1'; // 書き込み範囲
 
     const values = [
         [studentId, studentName, timestamp]
     ];
 
-    const resource = {
-        values
-    };
+    const resource = { values };
 
+    // Google Sheets APIでデータをスプレッドシートに追加
     return sheets.spreadsheets.values.append({
         spreadsheetId,
         range,
@@ -102,31 +96,23 @@ function appendData(studentId, timestamp, studentName) {
     });
 }
 
-
-// 学籍番号を使ってMongoDBからデータを検索
+// 学籍番号でMongoDBから学生データを検索
 app.post('/search', async (req, res) => {
-    const studentId = req.body.studentId; // フォームから送信された学籍番号
-
-    const client = new MongoClient(url);
+    const { studentId } = req.body; // リクエストから学籍番号を取得
+    const client = new MongoClient(mongoUrl);
 
     try {
         await client.connect(); // MongoDBに接続
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
 
-        // 学籍番号で学生を検索
+        // 学籍番号で学生情報を検索
         const student = await collection.findOne({ 学籍番号: studentId });
 
         if (student) {
-            res.json({
-                success: true,
-                student: student
-            });
+            res.json({ success: true, student });
         } else {
-            res.json({
-                success: false,
-                message: '学生が見つかりませんでした。'
-            });
+            res.json({ success: false, message: '学生が見つかりませんでした。' });
         }
     } catch (error) {
         console.error('エラーが発生しました:', error);
