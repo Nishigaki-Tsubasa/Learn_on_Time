@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const { google } = require('googleapis');
+const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const port = 3000; // サーバーのポート番号
