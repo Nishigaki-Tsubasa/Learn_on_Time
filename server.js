@@ -1,8 +1,9 @@
 const fs = require('fs');
 const express = require('express');
-const { MongoClient } = require('mongodb');
+//const { MongoClient } = require('mongodb');
+const connectToDatabase = require('./config/db'); // MongoDB接続用
 const { google } = require('googleapis');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const port = 3000; // サーバーのポート番号
@@ -10,7 +11,10 @@ const port = 3000; // サーバーのポート番号
 // MongoDB接続情報
 const mongoUrl = 'mongodb://localhost:27017'; // MongoDBのURL
 const dbName = 'student'; // データベース名
-const collectionName = 'student1'; // コレクション名
+//const collectionName = 'student1'; // コレクション名
+
+let dbClient; // MongoClientインスタンスを保持する変数
+
 
 // Google Sheets APIの認証情報
 let auth;
@@ -100,15 +104,18 @@ function appendData(studentId, timestamp, studentName) {
 // 学籍番号でMongoDBから学生データを検索
 app.post('/search', async (req, res) => {
     const { studentId } = req.body; // リクエストから学籍番号を取得
-    const client = new MongoClient(mongoUrl);
 
     try {
-        await client.connect(); // MongoDBに接続
-        const db = client.db(dbName);
-        const collection = db.collection(collectionName);
+        const { client, db } = await connectToDatabase(mongoUrl, dbName); // データベースに接続
+        dbClient = client; // clientを保持
 
         // 学籍番号で学生情報を検索
-        const student = await collection.findOne({ 学籍番号: studentId });
+        const student = await db.collection('student1').findOne({ 学籍番号: studentId });
+
+        //接続テスト
+        // const classList = await db.collection('class').findOne({ クラス: "1組" });
+        // console.log(classList);
+
 
         if (student) {
             res.json({ success: true, student });
@@ -119,11 +126,20 @@ app.post('/search', async (req, res) => {
         console.error('エラーが発生しました:', error);
         res.json({ success: false, message: 'エラーが発生しました。' });
     } finally {
-        await client.close(); // 接続を閉じる
+
     }
 });
 
 // サーバーを起動
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
+});
+
+// プロセスが終了するときに接続を閉じる処理
+process.on('SIGINT', async () => {
+    if (dbClient) {
+        await dbClient.close(); // MongoClientを閉じる
+        console.log('MongoDB connection closed on server shutdown');
+        process.exit(0);
+    }
 });
