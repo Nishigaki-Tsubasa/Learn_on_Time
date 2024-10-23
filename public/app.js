@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let date = new Date(); // 日付取得
         const listItem = document.createElement('li');
         const datejp = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}時${date.getMinutes()}分`;
-        listItem.textContent = `学籍番号: ${student.学籍番号} -  名前: ${student.名前} ${datejp}出席`;
+        listItem.textContent = `学籍番号：${student.学籍番号} -  名前：${student.名前} ${datejp}出席`;
 
         const studentId = student.学籍番号;
         const studentName = student.名前;
