@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出席管理システム</title>
+
+    <link rel="stylesheet" href="app.css">
+
+
+    <script>
+        function showClock() {
+            let nowTime = new Date();
+            let nowHour = twoFormat(nowTime.getHours());
+            let nowMin = twoFormat(nowTime.getMinutes());
+            let nowSec = twoFormat(nowTime.getSeconds());
+
+            let msg = "現在時刻：" + nowHour + ":" + nowMin + ":" + nowSec;
+            document.getElementById("realtime").innerHTML = msg;
+        }
+        setInterval('showClock()', 1000);
+
+        function twoFormat(data) {
+            return data < 10 ? "0" + data : data;
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <nav>
+        <div>出席管理システム</div>
+        <div>
+            <button id="startScanner">バーコードをスキャン</button>
+            <a href="select.html">クラス変更</a>
+            <a href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
+                target="_blank">スプレッドシート</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 id="classId">出席管理</h1>
+        <p id="realtime"></p>
+
+        <form id="attendanceForm" action="/search" method="POST">
+            <label for="studentId">学籍番号を入力</label>
+            <input type="number" id="studentId" placeholder="学籍番号" name="studentId" required>
+            <button type="submit">出席を記録</button>
+        </form>
+
+        <div id="main-container">
+            <!-- カメラ部分 -->
+            <div id="scanner-container">
+                カメラフィードがここに表示されます
+            </div>
+
+            <!-- 出席リスト部分 -->
+            <div id="attendance-section">
+                <p>読み取ったバーコード: <span id="barcodeValue"></span></p>
+                <h2>出席一覧</h2>
+                <ul id="attendanceList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- QuaggaJSライブラリの読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,8 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
     const attendanceForm = document.getElementById("attendanceForm");
     const startScannerButton = document.getElementById("startScanner");
+
+    const classData = JSON.parse(localStorage.getItem('classData'));//選択されたクラスを取得
+
+
+    // const classData = sessionStorage.getItem('classData'); //選択されたクラスを取得
+    const classId = document.getElementById("classId");
+
+    classId.textContent = `${classData.クラス}の${classData.教室}の出席管理`;
+
     //const scannerContainer = document.getElementById("scanner-container");
     //let attendanceRecords = [];
+
+
 
     // 出席を記録
     attendanceForm.addEventListener("submit", (e) => {
@@ -17,24 +28,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        // サーバーにPOSTリクエストを送信して学生を検索
         fetch('/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ studentId })
+            body: JSON.stringify({ studentId: studentId }) // ここでstudentIdが正しく渡されているか確認
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     const student = data.student;
-                    updateAttendanceList(student);
+
+                    //入力されたクラスと選択されたクラスの比較
+                    if (student.クラス == classData.クラス) {
+                        updateAttendanceList(student);
+                    } else {
+                        alert("違うクラスです");
+                    }
+
+
                 } else {
                     alert(data.message);
                 }
             })
             .catch(error => console.error('エラー:', error));
+
 
         // 入力フィールドをクリア
         document.getElementById('studentId').value = '';
@@ -44,14 +68,17 @@ document.addEventListener("DOMContentLoaded", () => {
     startScannerButton.addEventListener("click", () => {
         const barcodeValueElement = document.getElementById('barcodeValue');
 
+
+
+
         // Quaggaの初期化
         Quagga.init({
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                target: document.querySelector('#scanner-container'), // カメラのストリームを表示するコンテナ
+                target: document.querySelector('#scanner-container'), // カメラ映像を表示するコンテナ
                 constraints: {
-                    facingMode: "environment", // 背面カメラを使用（スマートフォン）
+                    facingMode: "environment", // スマートフォンなどでは背面カメラを使用
                     width: { ideal: 1280 },  // 幅の理想的な値
                     height: { ideal: 720 }   // 高さの理想的な値
                 },
@@ -59,20 +86,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     top: "0%",    // 上端
                     right: "0%",  // 右端
                     left: "0%",   // 左端
-                    bottom: "0%" // 下端
+                    bottom: "0%"  // 下端
                 }
             },
-            frequency: 1,
+            frequency: 1, // スキャン頻度
             decoder: {
-                readers: ["code_128_reader", "ean_reader", "upc_reader"] // 複数のリーダーを指定
+                readers: ["code_128_reader", "ean_reader", "upc_reader"] // 対応するバーコードリーダーを指定
             }
         }, function (err) {
             if (err) {
-                console.error(err);
+                console.error("Quagga initialization failed: ", err);
                 return;
             }
             console.log("Quagga initialization succeeded");
-            Quagga.start(); // バーコードスキャン開始
+
+
+
+            // Quaggaを開始して、カメラ映像を表示
+            Quagga.start();
         });
 
 
@@ -122,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let date = new Date(); // 日付取得
         const listItem = document.createElement('li');
         const datejp = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}時${date.getMinutes()}分`;
-        listItem.textContent = `学籍番号：${student.学籍番号} -  名前：${student.名前} ${datejp}出席`;
+        listItem.innerHTML = `学籍番号：${student.学籍番号} - 名前：${student.名前}<br>${datejp}出席`;
 
         const studentId = student.学籍番号;
         const studentName = student.名前;
@@ -155,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(error => console.error('Error:', error));
     }
+
 
 
 

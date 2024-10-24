@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラス選択</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 50%;
+            min-width: 300px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            /* ボタンの上に隙間を追加 */
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <div>
+        <form id="classSelect">
+            <label for="class" class="form-label">クラスを選択してください</label>
+            <select id="class" name="class" required class="form-select" aria-label="Default select example">
+                <option value="1組">1組</option>
+                <option value="2組">2組</option>
+                <option value="3組">3組</option>
+                <option value="4組">4組</option>
+                <option value="5組">5組</option>
+            </select>
+            <input class="btn btn-primary" type="submit" value="選択">
+        </form>
+    </div>
+
+    <script src="select.js"></script>
+
+</body>
+
+</html>

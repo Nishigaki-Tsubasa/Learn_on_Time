@@ -1,9 +1,8 @@
 const fs = require('fs');
 const express = require('express');
-//const { MongoClient } = require('mongodb');
 const connectToDatabase = require('./config/db'); // MongoDB接続用
-const { google } = require('googleapis');
 //const bodyParser = require('body-parser');
+const { google } = require('googleapis');
 const path = require('path');
 const app = express();
 const port = 3000; // サーバーのポート番号
@@ -26,12 +25,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// ルートパスへのアクセスに対して、index.htmlを返す
+// ルートパスへのアクセスに対して、select.htmlを返す
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'select.html'));
 });
 
 // Google Sheetsの認証情報を読み込み
+
 fs.readFile('credentials.json', (err, content) => {
     if (err) {
         console.error('Error loading client secret file:', err);
@@ -112,16 +112,14 @@ app.post('/search', async (req, res) => {
         // 学籍番号で学生情報を検索
         const student = await db.collection('student1').findOne({ 学籍番号: studentId });
 
-        //接続テスト
-        // const classList = await db.collection('class').findOne({ クラス: "1組" });
-        // console.log(classList);
-
-
         if (student) {
             res.json({ success: true, student });
         } else {
             res.json({ success: false, message: '学生が見つかりませんでした。' });
         }
+
+        // 使用後にMongoDB接続を閉じる
+        await client.close();
     } catch (error) {
         console.error('エラーが発生しました:', error);
         res.json({ success: false, message: 'エラーが発生しました。' });
@@ -130,16 +128,43 @@ app.post('/search', async (req, res) => {
     }
 });
 
+
+// クラス選択
+app.post('/submit', async (req, res) => {
+    const selectedClass = req.body.classId; // 選択されたクラスを取得
+    console.log(selectedClass);
+    try {
+        const { client, db } = await connectToDatabase(mongoUrl, dbName); // データベースに接続
+        dbClient = client; // clientを保持
+
+        const classData = await db.collection('class').findOne({ クラス: selectedClass }); // クラスのデータを取得
+        //const classList = await db.collection('student1').findOne({ クラス: selectedClass }); // クラスリストを取得
+
+
+        if (classData) {
+            console.log(classData);
+            res.json({ success: true, classData });
+
+        } else {
+            res.json({ success: false, message: 'クラスがありません' });
+        }
+    } catch (error) {
+        console.error('Error fetching class data:', error);
+        res.status(500).send('エラーが発生しました。もう一度お試しください。');
+    }
+});
+
+
+
+
+
 // サーバーを起動
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
 
-// プロセスが終了するときに接続を閉じる処理
-process.on('SIGINT', async () => {
-    if (dbClient) {
-        await dbClient.close(); // MongoClientを閉じる
-        console.log('MongoDB connection closed on server shutdown');
-        process.exit(0);
-    }
+// Graceful Shutdown (MongoDB接続は各リクエスト後に閉じるため、サーバーはすぐに終了できる)
+process.on('SIGINT', () => {
+    console.log('Server shutting down...');
+    process.exit(0);
 });
