@@ -47,6 +47,7 @@
         <form id="attendanceForm" action="/search" method="POST">
             <label for="studentId">学籍番号を入力</label>
             <input type="number" id="studentId" placeholder="学籍番号" name="studentId" required>
+            <div id="error-message" style="color: red; display: none;"></div>
             <button type="submit">出席を記録</button>
         </form>
 

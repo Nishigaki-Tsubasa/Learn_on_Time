@@ -132,7 +132,6 @@ app.post('/search', async (req, res) => {
 // クラス選択
 app.post('/submit', async (req, res) => {
     const selectedClass = req.body.classId; // 選択されたクラスを取得
-    console.log(selectedClass);
     try {
         const { client, db } = await connectToDatabase(mongoUrl, dbName); // データベースに接続
         dbClient = client; // clientを保持
@@ -142,7 +141,6 @@ app.post('/submit', async (req, res) => {
 
 
         if (classData) {
-            console.log(classData);
             res.json({ success: true, classData });
 
         } else {

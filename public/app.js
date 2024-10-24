@@ -47,9 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     //入力されたクラスと選択されたクラスの比較
                     if (student.クラス == classData.クラス) {
+                        document.getElementById("error-message").innerText = "";
+                        document.getElementById("error-message").style.display = "none";
                         updateAttendanceList(student);
                     } else {
-                        alert("違うクラスです");
+                        document.getElementById("error-message").innerText = `${classData.クラス}の学生ではありません。`;
+                        document.getElementById("error-message").style.display = "block";
+                        //alert("違うクラスです");
                     }
 
 
