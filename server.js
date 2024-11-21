@@ -31,7 +31,6 @@ app.get('/', (req, res) => {
 });
 
 // Google Sheetsの認証情報を読み込み
-
 fs.readFile('credentials.json', (err, content) => {
     if (err) {
         console.error('Error loading client secret file:', err);
@@ -86,6 +85,76 @@ function appendData(studentId, timestamp, studentName) {
     const spreadsheetId = '1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw'; // スプレッドシートID
     const range = 'Sheet1!A1'; // 書き込み範囲
 
+    (async () => {
+        //const auth = oAuth2ClientGen({ library: google });
+        //const sheets = google.sheets({ version: 'v4', auth });
+        const sheets1 = google.sheets({ version: 'v4', auth });
+
+
+        //const spreadsheetId = 'あなたのスプレッドシートIDをここに記入'; // スプレッドシートIDを指定
+        const range = 'Sheet2!D:D'; // データ範囲（A列が学籍番号、他の列に値を入力）
+        //const studentId = '123456'; // 検索したい学籍番号
+        const inputColumn = 7; // 入力する列番号 (E列なら4)
+        const inputValue = '出席'; // 入力する値
+
+        try {
+            // 1. データを取得
+            const res = await sheets1.spreadsheets.values.get({
+                spreadsheetId,
+                range,
+            });
+
+            const rows = res.data.values;
+
+            if (!rows || rows.length === 0) {
+                console.log('No data found.');
+                return;
+            }
+
+            // 2. 学籍番号を検索
+            let targetRow = null;
+            for (let i = 0; i < rows.length; i++) {
+                if (rows[i][0] === studentId) { // A列の学籍番号を検索
+                    targetRow = i + 1; // 行番号（スプレッドシートは1始まり）
+                    break;
+                }
+            }
+
+            if (targetRow === null) {
+                console.log('学籍番号が見つかりませんでした。');
+                return;
+            }
+
+            // 3. 同じ行に値を入力
+            const updateRange = `Sheet2!${String.fromCharCode(64 + inputColumn)}${targetRow}`;
+            await sheets1.spreadsheets.values.update({
+                spreadsheetId,
+                range: updateRange,
+                valueInputOption: 'RAW',
+                resource: {
+                    values: [[inputValue]],
+                },
+            });
+            const updateRange1 = `Sheet2!${String.fromCharCode(64 + inputColumn - 1)}${targetRow}`;
+
+            await sheets1.spreadsheets.values.update({
+                spreadsheetId,
+                range: updateRange1,
+                valueInputOption: 'RAW',
+                resource: {
+                    values: [[timestamp]],
+                },
+            });
+
+            //console.log(`学籍番号 ${studentId} の行に値を入力しました。`);
+
+        } catch (error) {
+            console.error('The API returned an error:', error);
+        }
+    })();
+
+
+
     const values = [
         [studentId, studentName, timestamp]
     ];
@@ -110,7 +179,7 @@ app.post('/search', async (req, res) => {
         dbClient = client; // clientを保持
 
         // 学籍番号で学生情報を検索
-        const student = await db.collection('student1').findOne({ 学籍番号: studentId });
+        const student = await db.collection('studentAll').findOne({ 学籍番号: studentId });
 
         if (student) {
             res.json({ success: true, student });

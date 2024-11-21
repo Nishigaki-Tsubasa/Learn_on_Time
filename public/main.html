@@ -51,11 +51,9 @@
             <button type="submit">出席を記録</button>
         </form>
 
+
         <div id="main-container">
             <!-- カメラ部分 -->
-            <div id="scanner-container">
-                カメラフィードがここに表示されます
-            </div>
 
             <!-- 出席リスト部分 -->
             <div id="attendance-section">
@@ -65,6 +63,14 @@
             </div>
         </div>
     </div>
+
+    <!-- <div id="scanner-container">
+        カメラフィードがここに表示されます
+    </div> -->
+
+    <div id="scanner-container" style="width: 100%; height: 300px; border: 1px solid black;"></div>
+
+
 
     <!-- QuaggaJSライブラリの読み込み -->
     <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
