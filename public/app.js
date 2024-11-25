@@ -73,6 +73,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const barcodeValueElement = document.getElementById('barcodeValue');
 
 
+        // const video = document.querySelector('#scanner-container');
+
+        // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        //     navigator.mediaDevices.getUserMedia({ video: true })
+        //         .then(stream => {
+        //             video.srcObject = stream;
+        //             video.play();
+        //         })
+        //         .catch(err => {
+        //             console.error('カメラへのアクセスに失敗しました:', err);
+        //         });
+        // } else {
+        //     console.error('このブラウザではカメラ機能がサポートされていません。');
+        // }
+
 
 
         // Quaggaの初期化
@@ -81,11 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: "Live",
                 type: "LiveStream",
                 target: document.querySelector('#scanner-container'), // カメラ映像を表示するコンテナ
-                constraints: {
-                    facingMode: "environment", // スマートフォンなどでは背面カメラを使用
-                    width: { ideal: 1280 },  // 幅の理想的な値
-                    height: { ideal: 720 }   // 高さの理想的な値
-                },
+                // constraints: {
+                //     facingMode: "environment", // スマートフォンなどでは背面カメラを使用
+                //     width: { ideal: 1280 },  // 幅の理想的な値
+                //     height: { ideal: 720 }   // 高さの理想的な値
+                // },
                 area: { // スキャンエリアを指定
                     top: "0%",    // 上端
                     right: "0%",  // 右端
@@ -141,6 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             updateAttendanceList(student);
                         } else {
                             alert(data.message);
+
+                            document.getElementById("error-message").innerText = `${classData.クラス}の学生ではありません。`;
+                            document.getElementById("error-message").style.display = "block";
                         }
                     })
                     .catch(error => console.error('エラー:', error));
@@ -150,14 +168,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
+    //10より小さいときに先頭に0をつける関数
+    function twoFormat(data) {
+        return data < 10 ? "0" + data : data;
+    }
 
 
     // 出席リストをページ上に表示する関数
     function updateAttendanceList(student) {
         let date = new Date(); // 日付取得
         const listItem = document.createElement('li');
-        const datejp = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}時${date.getMinutes()}分`;
+        const datejp = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${twoFormat(date.getHours())}時${twoFormat(date.getMinutes())}分`;
         listItem.innerHTML = `学籍番号：${student.学籍番号} - 名前：${student.名前}<br>${datejp}出席`;
+
+
 
         const studentId = student.学籍番号;
         const studentName = student.名前;

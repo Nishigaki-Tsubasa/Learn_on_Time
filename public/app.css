@@ -100,7 +100,7 @@ form button:hover {
     margin-top: 2rem;
 }
 
-#scanner-container,
+/* #scanner-container,
 #attendance-section {
     width: 48%;
 }
@@ -114,7 +114,20 @@ form button:hover {
     justify-content: center;
     align-items: center;
     color: #888;
+} */
+#attendance-section {
+    flex: 3;
+    /* フレックス比率3 */
+    /* 背景色（任意） */
 }
+
+#scanner-container {
+    flex: 7;
+    /* フレックス比率7 */
+    /* 背景色（任意） */
+
+}
+
 
 #attendance-section h2 {
     text-align: center;
@@ -136,4 +149,14 @@ form button:hover {
 #barcodeValue {
     font-weight: bold;
     color: #4a90e2;
+}
+
+.demo {
+    /* display: flex; */
+    text-align: center;
+    /* padding-right: 70px; */
+}
+
+.barcodeValue {
+    text-align: center;
 }
