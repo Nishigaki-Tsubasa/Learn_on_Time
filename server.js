@@ -1,16 +1,27 @@
 const fs = require('fs');
 const express = require('express');
+const cors = require("cors");
 const connectToDatabase = require('./config/db'); // MongoDB接続用
-//const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const { google } = require('googleapis');
+const { MongoClient } = require('mongodb');
 const path = require('path');
 const app = express();
-const port = 3000; // サーバーのポート番号
+//const port = 3000; 
+
+const port = process.env.PORT || 3000; // 環境変数から取得、なければ3000を使用
+
+
 
 // MongoDB接続情報
-const mongoUrl = 'mongodb://localhost:27017'; // MongoDBのURL
-const dbName = 'student'; // データベース名
-//const collectionName = 'student1'; // コレクション名
+const mongoUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/student";
+const dbName = process.env.MONGO_Name; // データベース名
+
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
 
 let dbClient; // MongoClientインスタンスを保持する変数
 
@@ -218,6 +229,84 @@ app.post('/submit', async (req, res) => {
     } catch (error) {
         console.error('Error fetching class data:', error);
         res.status(500).send('エラーが発生しました。もう一度お試しください。');
+    }
+});
+
+
+
+// Create
+app.post("/api/students", async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+    try {
+        // データベースに接続
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+        //const collection = db.collection("studentAll");
+
+        const result = await db.collection("studentAll").insertOne(req.body);
+
+        //console.log("追加");
+        res.status(201).send(result);
+        await client.close();
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// Read
+app.get("/api/students", async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+    try {
+        // データベースに接続
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+        const collection = db.collection("studentAll");
+
+        // コレクションの内容を取得してコンソールに表示
+        const students = await collection.find({}).toArray();
+        //console.log("Collection contents:");
+        //console.table(students);
+        //console.log("Read");
+
+
+        //const students = await db.collection("studentAll").find().toArray();
+        res.status(200).send(students);
+        await client.close();
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// Delete
+app.delete("/api/students/:studentId", async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+
+
+        const result = await db.collection("studentAll").deleteOne({ 学籍番号: req.params.studentId });
+        res.status(200).send(result);
+        //console.log("削除");
+        await client.close();
+
+    } catch (error) {
+        res.status(500).send(error);
     }
 });
 

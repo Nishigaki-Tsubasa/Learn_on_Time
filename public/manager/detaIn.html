@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生情報入力</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .name-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .name-group input {
+            flex: 1;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="home.html">戻る</a>
+    <div class="form-container">
+        <h2>学生情報入力</h2>
+        <form id="studentForm">
+            <!-- 学籍番号 -->
+            <div class="form-group">
+                <label for="studentId">学籍番号</label>
+                <input type="text" id="studentId" placeholder="1000001" required>
+            </div>
+
+            <!-- 名前 (姓と名) -->
+            <div class="form-group">
+                <label for="lastName">名前</label>
+                <div class="name-group">
+                    <input type="text" id="lastName" placeholder="姓 (例: 山田)" required>
+                    <input type="text" id="firstName" placeholder="名 (例: 太郎)" required>
+                </div>
+            </div>
+
+            <!-- 学年 -->
+            <div class="form-group">
+                <label for="grade">学年</label>
+                <input type="text" id="grade" placeholder="1" required>
+            </div>
+
+            <!-- クラス -->
+            <div class="form-group">
+                <label for="class">クラス</label>
+                <input type="text" id="class" placeholder="1" required>
+            </div>
+
+            <!-- 出席番号 -->
+            <div class="form-group">
+                <label for="attendanceNo">出席番号</label>
+                <input type="number" id="attendanceNo" placeholder="1" required>
+            </div>
+
+            <!-- 登録ボタン -->
+            <button type="submit">登録</button>
+        </form>
+    </div>
+
+    <script>
+        const apiBase = "http://localhost:3000/api/students";
+
+        // Create (データ追加)
+        document.getElementById("studentForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const student = {
+                学籍番号: document.getElementById("studentId").value,
+                名前: document.getElementById("lastName").value + " " + document.getElementById("firstName").value,
+                学年: Number(document.getElementById("grade").value),
+                クラス: document.getElementById("class").value + "組",
+                出席番号: Number(document.getElementById("attendanceNo").value),
+            };
+
+            try {
+                const response = await fetch(apiBase, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(student),
+                });
+
+                if (response.ok) {
+                    //alert("学生情報が送信されました！");
+                    document.getElementById("studentForm").reset();
+                } else {
+                    throw new Error("データ送信中にエラーが発生しました");
+                }
+            } catch (error) {
+                console.error("送信エラー:", error);
+                alert("データ送信に失敗しました");
+            }
+        });
+    </script>
+</body>
+
+</html>
