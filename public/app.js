@@ -58,7 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 } else {
-                    alert(data.message);
+                    document.getElementById("error-message").innerText = `学生ではありません`;
+                    document.getElementById("error-message").style.display = "block";
+                    //alert(data.message);
                 }
             })
             .catch(error => console.error('エラー:', error));
