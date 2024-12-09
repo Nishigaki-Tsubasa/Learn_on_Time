@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // const classData = sessionStorage.getItem('classData'); //選択されたクラスを取得
     const classId = document.getElementById("classId");
 
-    classId.textContent = `${classData.クラス}の${classData.教室}の出席管理`;
+    classId.textContent = `${classData.クラス}の出席管理`;
 
     //const scannerContainer = document.getElementById("scanner-container");
     //let attendanceRecords = [];

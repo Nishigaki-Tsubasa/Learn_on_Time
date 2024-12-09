@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>出席管理システム</title>
+    <title>出席管理システム | Learn on Time</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
 
     <link rel="stylesheet" href="app.css">
 
@@ -16,10 +19,33 @@
             let nowMin = twoFormat(nowTime.getMinutes());
             let nowSec = twoFormat(nowTime.getSeconds());
 
-            let msg = "現在時刻：" + nowHour + ":" + nowMin + ":" + nowSec;
+            let msg = nowHour + ":" + nowMin + ":" + nowSec;
             document.getElementById("realtime").innerHTML = msg;
         }
+
+        function showDataTime() {
+            // 現在の日付を取得
+            const currentDate = new Date();
+
+            // 年、月、日を取得
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth() + 1;  // 月は0から始まるので+1する
+            const day = currentDate.getDate();
+
+            // 曜日を取得（0〜6: 日曜〜土曜）
+            const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+            const weekday = weekdays[currentDate.getDay()];
+
+            // フォーマットされた日付と曜日
+            const formattedDate = `${year}年${month}月${day}日  (${weekday})`;
+            // HTMLの<p>タグに表示
+            document.getElementById('currentDate').textContent = `${formattedDate}`;
+
+        }
+        //showDataTime();
         setInterval('showClock()', 1000);
+        setInterval("showDataTime()", 1000);
+
 
         function twoFormat(data) {
             return data < 10 ? "0" + data : data;
@@ -31,8 +57,12 @@
 <body>
 
     <nav>
-        <div>出席管理システム</div>
+        <div class="nav-brand">
+            <img src="favicon.ico" alt="Logo" class="nav-icon">
+            <div class="nav-title">Learn on Time</div>
+        </div>
         <div>
+
             <a href="/manager/home.html">管理者</a>
             <button id="startScanner">バーコードをスキャン</button>
             <a href="select.html">クラス変更</a>
@@ -43,6 +73,7 @@
 
     <div class="container">
         <h1 id="classId">出席管理</h1>
+        <p id="currentDate"></p>
         <p id="realtime"></p>
 
         <form id="attendanceForm" action="/search" method="POST">
