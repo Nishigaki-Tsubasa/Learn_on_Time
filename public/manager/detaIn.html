@@ -5,84 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生情報入力</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
 
-        .form-container {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    <link rel="stylesheet" href="home.css">
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
-        .name-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .name-group input {
-            flex: 1;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .btn {
-            background-color: #007bff;
-            color: white;
-            padding: 0.75rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-reset {
-            background-color: #ff6b6b;
-        }
-
-        .btn-reset:hover {
-            background-color: #cc0000;
-        }
-    </style>
 </head>
 
 <body>
@@ -134,40 +59,8 @@
         </form>
     </div>
 
-    <script>
-        const apiBase = "http://localhost:3000/api/students";
+    <script src="detaIn.js"></script>
 
-        // Create (データ追加)
-        document.getElementById("studentForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const student = {
-                学籍番号: document.getElementById("studentId").value,
-                名前: document.getElementById("lastName").value + " " + document.getElementById("firstName").value,
-                学年: Number(document.getElementById("grade").value),
-                クラス: document.getElementById("class").value + "組",
-                出席番号: Number(document.getElementById("attendanceNo").value),
-            };
-
-            try {
-                const response = await fetch(apiBase, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student),
-                });
-
-                if (response.ok) {
-                    //alert("学生情報が送信されました！");
-                    document.getElementById("studentForm").reset();
-                } else {
-                    throw new Error("データ送信中にエラーが発生しました");
-                }
-            } catch (error) {
-                console.error("送信エラー:", error);
-                alert("データ送信に失敗しました");
-            }
-        });
-    </script>
 </body>
 
 </html>
