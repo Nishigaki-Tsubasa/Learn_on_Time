@@ -1,0 +1,132 @@
+ /* 基本のスタイル */
+ body {
+     font-family: Arial, sans-serif;
+     margin: 0;
+     padding: 0;
+     background-color: #f4f4f9;
+     color: #333;
+ }
+
+ header {
+     background-color: #2c3e50;
+     color: white;
+     padding: 20px;
+     text-align: center;
+ }
+
+ header h1 {
+     margin: 0;
+ }
+
+ /* ナビゲーション */
+ nav {
+     background-color: #34495e;
+     padding: 10px 20px;
+     text-align: center;
+ }
+
+ nav a {
+     color: white;
+     text-decoration: none;
+     margin: 0 15px;
+     font-size: 18px;
+ }
+
+ nav a:hover {
+     color: #ecf0f1;
+ }
+
+ /* メインコンテンツ */
+ .container {
+     padding: 30px;
+ }
+
+ h2 {
+     font-size: 24px;
+     color: #2c3e50;
+ }
+
+ h4 {
+     font-size: 18px;
+     color: #2980b9;
+     margin: 0;
+ }
+
+ /* ボタン */
+ button {
+     background-color: #2980b9;
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     font-size: 16px;
+     cursor: pointer;
+     margin: 10px 0;
+     border-radius: 5px;
+ }
+
+ button:hover {
+     background-color: #031316;
+ }
+
+ /* テーブル */
+ table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 20px;
+ }
+
+ th,
+ td {
+     border: 1px solid #ddd;
+     padding: 10px;
+     text-align: center;
+ }
+
+ th {
+     background-color: #ecf0f1;
+     color: #2c3e50;
+     font-weight: bold;
+ }
+
+ td button {
+     background-color: #e74c3c;
+     color: white;
+     border: none;
+     padding: 5px 10px;
+     cursor: pointer;
+     border-radius: 5px;
+ }
+
+ td button:hover {
+     background-color: #c0392b;
+ }
+
+ /* レスポンシブデザイン */
+ @media (max-width: 768px) {
+     body {
+         font-size: 14px;
+     }
+
+     table {
+         font-size: 12px;
+     }
+
+     button {
+         font-size: 14px;
+     }
+ }
+
+ .add {
+     background-color: #2980b9;
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     font-size: 16px;
+     cursor: pointer;
+     margin: 10px 0;
+     border-radius: 5px;
+ }
+
+ .add:hover {
+     background-color: #031316;
+ }

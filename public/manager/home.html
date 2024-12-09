@@ -5,138 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MongoDB</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
 
-        form,
-        table {
-            margin-bottom: 20px;
-        }
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    <link rel="stylesheet" href="home.css">
 
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
 
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 
 <body>
-    <a href="../main.html">戻る</a>
+    <header>
+        <h1>管理者</h1>
+    </header>
 
-    <br>
-    <br>
+    <nav>
+        <a href="../main.html">戻る</a>
+    </nav>
 
-    <button onclick="location.href='detaIn.html'">
+    <div class="container">
+        <button id="add" onclick="location.href='detaIn.html'">
+            <h4>データ追加</h4>
+        </button>
 
-        <h4>データ追加</h4>
+        <br>
+        <button id="add" onclick="location.href='selectURL.html'">
+            <h4>スプレッドシートURLの変更</h4>
+        </button>
 
-    </button>
-    <br>
-    <button onclick="location.href='selectURL.html'">
-        <h4>
-            スプレッドシートURLの変更
-        </h4>
-    </button>
+        <!-- データ一覧表示 -->
+        <h2>データ一覧</h2>
 
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>学籍番号</th>
+                    <th>名前</th>
+                    <th>学年</th>
+                    <th>クラス</th>
+                    <th>出席番号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-    <!-- Read -->
-    <h2>データ一覧</h2>
-
-
-    <!-- <button id="loadData">
-        <h4>
-            データを取得
-        </h4>
-    </button> -->
-
-
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>学籍番号</th>
-                <th>名前</th>
-                <th>学年</th>
-                <th>クラス</th>
-                <th>出席番号</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <script>
-        // APIのURL
-        const apiBase = "http://localhost:3000/api/students";
-
-        // Create (データ追加)
-        // document.getElementById("createForm").addEventListener("submit", async (e) => {
-        //     e.preventDefault();
-        //     const student = {
-        //         学籍番号: document.getElementById("studentId").value,
-        //         名前: document.getElementById("name").value,
-        //         学年: document.getElementById("grade").value,
-        //         クラス: document.getElementById("class").value + "組",
-        //         出席番号: document.getElementById("attendanceNumber").value,
-        //     };
-        //     await fetch(apiBase, {
-        //         method: "POST",
-        //         headers: { "Content-Type": "application/json" },
-        //         body: JSON.stringify(student),
-        //     });
-        //     alert("データが追加されました！");
-        //     loadData();
-        // });
-
-        // Read (データ取得)
-        const loadData = async () => {
-            const res = await fetch(apiBase);
-            const data = await res.json();
-            const tbody = document.querySelector("#dataTable tbody");
-            tbody.innerHTML = "";
-            data.forEach((item) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-          <td>${item.学籍番号}</td>
-          <td>${item.名前}</td>
-          <td>${item.学年}</td>
-          <td>${item.クラス}</td>
-          <td>${item.出席番号}</td>
-          <td>
-            <button onclick="editStudent(${JSON.stringify(item)})">編集</button>
-            <button onclick="deleteStudent('${item.学籍番号}')">削除</button>
-
-          </td>
-        `;
-                tbody.appendChild(row);
-            });
-        };
-
-        // Delete (データ削除)
-        const deleteStudent = async (studentId) => {
-            await fetch(`${apiBase}/${studentId}`, { method: "DELETE" });
-            //alert("データが削除されました！");
-            loadData();
-        };
+    <script src="home.js"></script>
 
 
-        loadData();
-        // 初期データ読み込み
-        document.getElementById("loadData").addEventListener("click", loadData);
-    </script>
 </body>
-
 
 </html>
