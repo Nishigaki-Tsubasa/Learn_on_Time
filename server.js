@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const { MongoClient } = require('mongodb');
 const path = require('path');
+const favicon = require('serve-favicon');
 const app = express();
-//const port = 3000; 
 
 const port = process.env.PORT || 3000; // 環境変数から取得、なければ3000を使用
 
@@ -31,6 +31,9 @@ let auth;
 
 // 静的ファイルの提供
 app.use(express.static(path.join(__dirname, 'public')));
+
+// ファビコンのミドルウェアを設定
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // POSTリクエストのパース設定
 app.use(express.urlencoded({ extended: true }));
@@ -309,6 +312,41 @@ app.delete("/api/students/:studentId", async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+
+
+app.post("/updateURL", async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+
+    try {
+        // データベースに接続
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+        const collection = db.collection("class");
+
+        const classData = req.body.classData;
+
+
+        console.log(classData);
+
+        const result = await collection.updateOne(
+            { クラス: req.params.classData }, // 更新条件 (_id)
+            { $set: req.params.sheets }      // 更新内容
+        );
+
+        //console.log("追加");
+        res.status(201).send(result);
+        await client.close();
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 
 
 

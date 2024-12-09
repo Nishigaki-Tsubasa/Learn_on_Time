@@ -58,11 +58,38 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-reset {
+            background-color: #ff6b6b;
+        }
+
+        .btn-reset:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 
 <body>
-    <a href="home.html">戻る</a>
+    <!-- <a href="home.html">戻る</a> -->
+
+
+
     <div class="form-container">
         <h2>学生情報入力</h2>
         <form id="studentForm">
@@ -101,6 +128,9 @@
 
             <!-- 登録ボタン -->
             <button type="submit">登録</button>
+            <button onclick="location.href='home.html'" class="btn btn-reset" type="button"
+                id="resetButton">元に戻る</button>
+
         </form>
     </div>
 
