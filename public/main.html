@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="main.css">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 
     <script>
         function showClock() {
@@ -52,11 +54,21 @@
         }
     </script>
 
+
+    <style>
+        /* nav .logo {
+            color: #fff;
+            font-size: 24px;
+        } */
+    </style>
+
+
 </head>
 
 <body>
 
-    <nav>
+
+    <!-- <nav>
         <div class="nav-brand">
             <img src="favicon.ico" alt="Logo" class="nav-icon">
             <div class="nav-title">Learn on Time</div>
@@ -69,7 +81,84 @@
             <a href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
                 target="_blank">スプレッドシート</a>
         </div>
+
+    </nav> -->
+
+    <nav>
+        <div id="navdiv">
+            <div class="nav-brand">
+                <img src="favicon.ico" alt="Logo" class="nav-icon">
+                <div class="nav-title">Learn on Time</div>
+            </div>
+
+
+
+            <div class="menu-icon" id="menuLogo">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div id="space"></div>
+
+            <div class="menu" id="menu" style="display: none;">
+
+                <div class="aDiv">
+                    <a href="/manager/home.html">管理者</a>
+                </div>
+                <div class="aDiv">
+                    <a href="select.html">クラス変更</a>
+                </div>
+                <div class="aDiv">
+                    <a href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
+                        target="_blank">スプレッドシート</a>
+
+                </div>
+            </div>
+        </div>
+
     </nav>
+
+    <!-- 
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="favicon.ico" alt="Logo" class="nav-icon"> Learn on Time
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">メニュー</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/manager/home.html">管理者</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-success nav-link" id="startScanner">バーコードをスキャン</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="select.html">クラス変更</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
+                                target="_blank">スプレッドシート</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+
+
+
 
     <div class="container">
         <h1 id="classId">出席管理</h1>
@@ -88,7 +177,10 @@
             <!-- カメラ部分 -->
 
 
-            <div id="scanner-container"> </div>
+            <div id="scanner-container">
+                <button id="startScanner"><i class="fa fa-camera-retro"></i> バーコードをスキャン</button>
+
+            </div>
 
             <!-- 出席リスト部分 -->
             <div id="attendance-section">
@@ -102,6 +194,10 @@
             </div>
         </div>
     </div>
+
+
+
+
 
     <!-- QuaggaJSライブラリの読み込み -->
     <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
