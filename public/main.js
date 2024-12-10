@@ -73,6 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // QuaggaJSでバーコードスキャンを開始
     startScannerButton.addEventListener("click", () => {
         const barcodeValueElement = document.getElementById('barcodeValue');
+        const startScanner = document.getElementById('startScanner');
+        startScanner.style.display = 'none';
 
 
         // const video = document.querySelector('#scanner-container');
@@ -97,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
-                target: document.querySelector('#scanner-container'), // カメラ映像を表示するコンテナ
+                target: document.getElementById('scanner-container'), // カメラ映像を表示するコンテナ
                 // constraints: {
                 //     facingMode: "environment", // スマートフォンなどでは背面カメラを使用
                 //     width: { ideal: 1280 },  // 幅の理想的な値
@@ -223,3 +225,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+
+
+// function toggleMenu() {
+//     const menu = document.getElementById('menu');
+//     if (menu.style.display === 'flex') {
+//         menu.style.display = 'none';
+//     } else {
+//         menu.style.display = 'flex';
+//     }
+// }
+
+const menu = document.getElementById('menu');
+const menuLogo = document.getElementById('menuLogo');
+
+// マウスが乗ったとき
+menuLogo.addEventListener('mouseenter', () => {
+    menu.style.display = 'flex';
+});
+
+// マウスが乗ったとき
+menu.addEventListener('mouseenter', () => {
+    menu.style.display = 'flex';
+});
+
+// // マウスが離れたとき
+// menuL.addEventListener('mouseleave', () => {
+//     menu.style.display = 'none';
+// });
+
+menu.addEventListener('mouseleave', () => {
+    menu.style.display = 'none';
+});
+
+

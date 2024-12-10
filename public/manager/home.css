@@ -48,7 +48,7 @@
 
  h4 {
      font-size: 18px;
-     color: #2980b9;
+     color: #dfdfdf;
      margin: 0;
  }
 
@@ -116,7 +116,7 @@
      }
  }
 
- .add {
+ #add {
      background-color: #2980b9;
      color: white;
      border: none;
@@ -127,6 +127,15 @@
      border-radius: 5px;
  }
 
- .add:hover {
+ #add:hover {
      background-color: #031316;
+ }
+
+
+ .btn-reset {
+     background-color: #ff6b6b;
+ }
+
+ .btn-reset:hover {
+     background-color: #cc0000;
  }
