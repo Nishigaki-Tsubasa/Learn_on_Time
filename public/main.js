@@ -100,21 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: "Live",
                 type: "LiveStream",
                 target: document.getElementById('scanner-container'), // カメラ映像を表示するコンテナ
-                // constraints: {
-                //     facingMode: "environment", // スマートフォンなどでは背面カメラを使用
-                //     width: { ideal: 1280 },  // 幅の理想的な値
-                //     height: { ideal: 720 }   // 高さの理想的な値
-                // },
-                area: { // スキャンエリアを指定
-                    top: "0%",    // 上端
-                    right: "0%",  // 右端
-                    left: "0%",   // 左端
-                    bottom: "0%"  // 下端
-                }
+                constraints: {
+                    width: 640,
+                    height: 480,
+                    facingMode: "environment" // リアカメラ
+                },
+                willReadFrequently: true, // キャンバスのパフォーマンスを向上
             },
             frequency: 1, // スキャン頻度
             decoder: {
-                readers: ["code_128_reader", "ean_reader", "upc_reader"] // 対応するバーコードリーダーを指定
+                readers: ["code_128_reader"] // 読み取るバーコードの種類
             }
         }, function (err) {
             if (err) {
@@ -159,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             const student = data.student;
                             updateAttendanceList(student);
                         } else {
-                            alert(data.message);
+                            //alert(data.message);
 
                             document.getElementById("error-message").innerText = `${classData.クラス}の学生ではありません。`;
                             document.getElementById("error-message").style.display = "block";

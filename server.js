@@ -42,6 +42,8 @@ app.use(express.json());
 // ルートパスへのアクセスに対して、select.htmlを返す
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'select.html'));
+    //createSheet();
+
 });
 
 // Google Sheetsの認証情報を読み込み
@@ -362,3 +364,63 @@ process.on('SIGINT', () => {
     console.log('Server shutting down...');
     process.exit(0);
 });
+
+
+async function createSheet() {
+    const client = new MongoClient(mongoUrl);
+
+    const sheets = google.sheets({ version: 'v4', auth });
+    const spreadsheetId = '1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw'; // スプレッドシートID
+    const range = 'Sheet3!A1'; // 書き込み範囲
+
+
+    try {
+        // データベースに接続
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+        const collection = db.collection("studentAll");
+
+        // コレクションの内容を取得してコンソールに表示
+        const students = await collection.find({ クラス: "1組" }).toArray();
+        //console.log("Collection contents:");
+        console.table(students);
+        //console.log("Read");
+
+        // MongoDBデータを2次元配列に変換
+        const values = students.map(student => [
+            student.学籍番号, // 学籍番号
+            student.名前,     // 名前
+            student.学年,     // 学年
+            student.クラス,   // クラス
+        ]);
+
+
+        const resource = { values };
+
+        console.log(resource);
+
+        // Google Sheets APIでデータをスプレッドシートに追加
+        await sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range,
+            valueInputOption: 'RAW',
+            resource,
+        });
+
+
+        //const students = await db.collection("studentAll").find().toArray();
+
+        await client.close();
+
+    } catch (error) {
+        //res.status(500).send(error);
+    }
+
+
+
+}
+
+//createSheet();
