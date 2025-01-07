@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出席一覧</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- <link rel="stylesheet" href="home.css"> -->
+    <style>
+        /* 基本のスタイル */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* フォームスタイル */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        input[type="date"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            /* 中央揃え */
+        }
+
+        /* 見出しスタイル */
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            /* 中央揃え */
+        }
+
+        /* 出席リストのスタイル */
+        #attendance-list {
+            margin-bottom: 20px;
+            text-align: center;
+            /* 中央揃え */
+        }
+
+        /* テーブルスタイル */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: #fff;
+        }
+
+        thead th {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            /* 中央揃え */
+        }
+
+        tbody td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            /* 中央揃え */
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* ボタンスタイル */
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        /* ボタンを中央に配置 */
+        #attendance-list,
+        form {
+            display: flex;
+            justify-content: center;
+            /* 横方向に中央揃え */
+            margin-bottom: 20px;
+        }
+
+        /* ボタンホバー時のスタイル */
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            input[type="date"] {
+                width: 100%;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <form>
+        <label for="date"></label>
+        <input type="date" id="date" name="date">
+    </form>
+
+    <h1 id="h"></h1>
+    <div id="attendance-list"></div>
+
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="ans"></tbody>
+    </table>
+
+
+
+    <script>
+        const h = document.getElementById('h');
+        const currentDate = new Date(); // 現在の日付を取得
+        const formattedDate = currentDate.getFullYear() + '年'
+            + (currentDate.getMonth() + 1).toString().padStart(2, '0') + '月'
+            + currentDate.getDate().toString().padStart(2, '0') + '日';
+
+        h.textContent = formattedDate;
+
+
+        const dateInput = document.getElementById('date');
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);  // 文字列をDateオブジェクトに変換
+
+            const year = date.getFullYear();  // 年を取得
+            const month = String(date.getMonth() + 1).padStart(2, '0');  // 月を取得（0から始まるので+1して調整、2桁にパディング）
+            const day = String(date.getDate()).padStart(2, '0');  // 日を取得（2桁にパディング）
+
+            return `${year}年${month}月${day}日`;  // フォーマットされた日付を返す
+        }
+
+
+        dateInput.addEventListener('input', function () {
+            const selectedDate = dateInput.value;
+            const formattedDate = formatDate(selectedDate);
+            h.textContent = formattedDate;
+            const url = `/api/attendance?date=${encodeURIComponent(formattedDate)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(attendanceByDate => {
+                    let ans = document.getElementById("ans");
+                    ans.innerHTML = '';
+
+
+                    attendanceByDate.forEach(record => {
+                        const tbody = document.querySelector("#dataTable tbody");
+
+                        const row = document.createElement("tr");
+
+                        // console.log(record);
+
+                        // 日付が存在するか確認
+                        if (record.出席時間) {
+                            let dateString = record.出席時間;
+                            let timeMatch = dateString.match(/\d{1,2}時\d{1,2}分/);
+                            const logId = record.id;
+
+                            let listItem = document.createElement("p");
+
+
+                            // matchが成功した場合のみ表示
+                            if (timeMatch) {
+
+                                row.innerHTML = `
+                                 <td>${record.名前}</td>
+                                 <td>${timeMatch[0]}</td>
+             
+                                 <td>
+                                <button onclick="deleteAttendance('${logId}')">削除</button>
+                                </td>
+                            `;
+                                tbody.appendChild(row);
+
+                            } else {
+                                listItem.textContent = `${record.名前} - 時間が不明`;
+                            }
+                        } else {
+                            listItem.textContent = `${record.名前} - 日付情報なし`;
+                        }
+
+                        // attendanceListDiv.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching attendance data:', error);
+                });
+
+
+        });
+
+        // const deleteStudent = async (studentId) => {
+        //     await fetch(`${apiBase}/${studentId}`, { method: "DELETE" });
+        //     loadData();
+        // };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/attendance/now')
+                .then(response => response.json())
+                .then(attendanceByDate => {
+                    let ans = document.getElementById("ans");
+                    ans.innerHTML = '';
+
+                    attendanceByDate.forEach(record => {
+                        const tbody = document.querySelector("#dataTable tbody");
+
+                        const row = document.createElement("tr");
+
+                        // console.log(record);
+
+                        // 日付が存在するか確認
+                        if (record.出席時間) {
+                            let dateString = record.出席時間;
+                            let timeMatch = dateString.match(/\d{1,2}時\d{1,2}分/);
+                            const logId = record.id;
+
+                            let listItem = document.createElement("p");
+
+
+                            // matchが成功した場合のみ表示
+                            if (timeMatch) {
+
+                                row.innerHTML = `
+                                 <td>${record.名前}</td>
+                                 <td>${timeMatch[0]}</td>
+             
+                                 <td>
+                                <button onclick="deleteAttendance('${logId}')">削除</button>
+                                </td>
+                            `;
+                                tbody.appendChild(row);
+
+                            } else {
+                                listItem.textContent = `${record.名前} - 時間が不明`;
+                            }
+                        } else {
+                            listItem.textContent = `${record.名前} - 日付情報なし`;
+                        }
+
+                        // attendanceListDiv.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching attendance data:', error);
+                });
+        });
+
+
+
+
+        // 出席データの削除処理
+        function deleteAttendance(id) {
+            fetch(`/api/attendance/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    //console.log(data.message);
+                    // 再取得して更新
+                    fetch('/api/attendance/now')
+                        .then(response => response.json())
+                        .then(attendanceByDate => {
+                            let ans = document.getElementById("ans");
+                            ans.innerHTML = '';
+
+                            attendanceByDate.forEach(record => {
+                                const tbody = document.querySelector("#dataTable tbody");
+
+                                const row = document.createElement("tr");
+
+                                // console.log(record);
+
+                                // 日付が存在するか確認
+                                if (record.出席時間) {
+                                    let dateString = record.出席時間;
+                                    let timeMatch = dateString.match(/\d{1,2}時\d{1,2}分/);
+                                    const logId = record.id;
+
+                                    let listItem = document.createElement("p");
+
+
+                                    // matchが成功した場合のみ表示
+                                    if (timeMatch) {
+
+                                        row.innerHTML = `
+                                 <td>${record.名前}</td>
+                                 <td>${timeMatch[0]}</td>
+             
+                                 <td>
+                                <button onclick="deleteAttendance('${logId}')">削除</button>
+                                </td>
+                            `;
+                                        tbody.appendChild(row);
+
+                                    } else {
+                                        listItem.textContent = `${record.名前} - 時間が不明`;
+                                    }
+                                } else {
+                                    listItem.textContent = `${record.名前} - 日付情報なし`;
+                                }
+
+                                // attendanceListDiv.appendChild(listItem);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching attendance data:', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Error deleting attendance data:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>

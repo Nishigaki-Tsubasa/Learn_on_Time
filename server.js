@@ -8,6 +8,7 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 const favicon = require('serve-favicon');
 const app = express();
+const { v4: uuidv4 } = require('uuid');
 
 const port = process.env.PORT || 3000; // 環境変数から取得、なければ3000を使用
 
@@ -84,6 +85,12 @@ function getNewToken(oAuth2Client) {
 app.post('/record-attendance', (req, res) => {
     const { studentId, studentName, datejp: timestamp } = req.body; // リクエストからデータを取得
 
+
+    //console.log(timestamp);
+
+    addDbData(studentId, timestamp);
+
+
     // Google Sheetsにデータを追加
     appendData(studentId, timestamp, studentName)
         .then(() => {
@@ -94,6 +101,45 @@ app.post('/record-attendance', (req, res) => {
             res.status(500).send('Failed to record attendance.');
         });
 });
+
+
+async function addDbData(studentId, timestamp) {
+    const client = new MongoClient(mongoUrl);
+
+    try {
+        // データベースに接続
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+        const collection = db.collection("studentAll");
+
+        console.log(timestamp);
+        const result = await collection.updateOne(
+            { 学籍番号: studentId },
+            {
+                $push: {
+                    出席: {
+                        id: uuidv4(), // UUIDを生成
+                        日付: timestamp
+                    }
+                }
+            }
+        );
+
+        //console.log("追加");
+        //res.status(201).send(result);
+        await client.close();
+
+    } catch (error) {
+        //res.status(500).send(error);
+    }
+
+}
+
+
+
 
 // Google Sheetsにデータを追加する関数
 function appendData(studentId, timestamp, studentName) {
@@ -137,7 +183,7 @@ function appendData(studentId, timestamp, studentName) {
             }
 
             if (targetRow === null) {
-                console.log('学籍番号が見つかりませんでした。');
+                console.log('スプレッドシートに学籍番号が見つかりませんでした。');
                 return;
             }
 
@@ -353,7 +399,6 @@ app.post("/updateURL", async (req, res) => {
 
 
 
-
 // サーバーを起動
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
@@ -364,6 +409,142 @@ process.on('SIGINT', () => {
     console.log('Server shutting down...');
     process.exit(0);
 });
+
+
+
+// 現在の日付の出席情報を取得
+app.get('/api/attendance/now', async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('studentAll');
+
+        // 現在の日付をフォーマット
+        const currentDate = new Date();
+        const formattedDate = currentDate.getFullYear() + '年'
+            + (currentDate.getMonth() + 1).toString().padStart(2, '0') + '月'
+            + currentDate.getDate().toString().padStart(2, '0') + '日';
+
+        // const a = await collection.find({}).toArray();
+
+        // console.log(a);
+
+
+
+        // すべての出席情報を取得
+        const students = await collection.find({}, { projection: { 名前: 1, 出席: 1, _id: 0 } }).toArray();
+
+
+        // 日にちごとの出席者リストを作成
+        let attendanceByDate = []; // 配列として初期化
+
+        students.forEach(student => {
+            if (Array.isArray(student.出席)) {
+                student.出席.forEach(record => {
+                    if (record.日付.startsWith(formattedDate)) {
+                        // 学生の名前と出席時間をオブジェクトとして配列に追加
+                        attendanceByDate.push({
+                            名前: student.名前,
+                            出席時間: record.日付, // 出席時間を保存
+                            id: record.id
+                        });
+                    }
+                });
+            }
+        });
+
+
+
+        res.json(attendanceByDate);
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Internal Server Error');
+    } finally {
+        await client.close();
+    }
+});
+
+//日付を選択して出席者を表示
+app.get('/api/attendance', async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+    const formattedDate = req.query.date;
+    console.log(formattedDate);
+
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('studentAll');
+
+
+
+        // すべての出席情報を取得
+        const students = await collection.find({}, { projection: { 名前: 1, 出席: 1, _id: 0 } }).toArray();
+
+        // 日にちごとの出席者リストを作成
+        let attendanceByDate = []; // 配列として初期化
+
+        students.forEach(student => {
+            if (Array.isArray(student.出席)) {
+                student.出席.forEach(record => {
+                    if (record.日付.startsWith(formattedDate)) {
+                        // 学生の名前と出席時間をオブジェクトとして配列に追加
+                        attendanceByDate.push({
+                            名前: student.名前,
+                            出席時間: record.日付, // 出席時間を保存
+                            id: record.id
+
+                        });
+                    }
+                });
+            }
+        });
+
+
+        res.json(attendanceByDate);
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Internal Server Error');
+    } finally {
+        await client.close();
+    }
+});
+
+
+// 出席データ削除エンドポイント
+app.delete('/api/attendance/:id', async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        // 指定したデータベースとコレクションを取得
+        const db = client.db(dbName);
+
+
+
+        const result = await db.collection("studentAll").updateOne(
+            { "出席.id": req.params.id }, // クエリ: `出席` 配列内の特定の `id` を持つ要素を検索
+            { $pull: { "出席": { id: req.params.id } } } // `出席` 配列から該当する要素を削除
+        );
+        res.status(200).send(result);
+        //console.log("削除");
+        await client.close();
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 
 
 async function createSheet() {

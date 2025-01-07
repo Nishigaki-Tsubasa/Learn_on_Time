@@ -177,8 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateAttendanceList(student) {
         let date = new Date(); // 日付取得
         const listItem = document.createElement('li');
-        const datejp = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${twoFormat(date.getHours())}時${twoFormat(date.getMinutes())}分`;
-        listItem.innerHTML = `学籍番号：${student.学籍番号} - 名前：${student.名前}<br>${datejp}出席`;
+        const datejp = `${date.getFullYear()}年${(date.getMonth() + 1).toString().padStart(2, '0')}月${date.getDate().toString().padStart(2, '0')}日 ${twoFormat(date.getHours())}時${twoFormat(date.getMinutes())}分`;
+        listItem.innerHTML = `学籍番号：${student.学籍番号} - 名前：${student.名前}<br>${datejp}  出席`;
+
 
 
 
