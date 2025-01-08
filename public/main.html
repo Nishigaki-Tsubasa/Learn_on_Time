@@ -9,6 +9,12 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.jp/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
     <link rel="stylesheet" href="main.css">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -67,64 +73,17 @@
 
 <body>
 
-
-    <!-- <nav>
-        <div class="nav-brand">
-            <img src="favicon.ico" alt="Logo" class="nav-icon">
-            <div class="nav-title">Learn on Time</div>
-        </div>
-        <div>
-
-            <a href="/manager/home.html">管理者</a>
-            <button id="startScanner">バーコードをスキャン</button>
-            <a href="select.html">クラス変更</a>
-            <a href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
-                target="_blank">スプレッドシート</a>
-        </div>
-
-    </nav> -->
-
-    <nav>
-        <div id="navdiv">
-            <div class="nav-brand">
-                <img src="favicon.ico" alt="Logo" class="nav-icon">
-                <div class="nav-title">Learn on Time</div>
-            </div>
-
-
-
-            <div class="menu-icon" id="menuLogo">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
-            <div id="space"></div>
-
-            <div class="menu" id="menu" style="display: none;">
-
-                <div class="aDiv">
-                    <a href="/manager/home.html">管理者</a>
-                </div>
-                <div class="aDiv">
-                    <a href="select.html">クラス変更</a>
-                </div>
-                <div class="aDiv">
-                    <a href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
-                        target="_blank">スプレッドシート</a>
-
-                </div>
-            </div>
-        </div>
-
-    </nav>
-
-    <!-- 
-    <nav class="navbar bg-body-tertiary fixed-top">
+    <nav class="navbar  fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="favicon.ico" alt="Logo" class="nav-icon"> Learn on Time
+            <a class="navbar-brand" id="aaa">
+                <div id="navdiv">
+                    <div class="nav-brand">
+                        <img src="../favicon.ico" alt="Logo" class="nav-icon">
+                        <div class="nav-title">Learn on Time</div>
+                    </div>
+                </div>
             </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -137,25 +96,55 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/manager/home.html">管理者</a>
+                            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
+                            <button id="add"
+                                onclick="location.href='https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0'"
+                                id="resetButton">
+                                <h4>スプレッドシート</h4>
+                            </button>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-success nav-link" id="startScanner">バーコードをスキャン</button>
+
+                            <!-- <a class="nav-link" href="#">Link</a> -->
+                            <button id="add" onclick="location.href='select.html'">
+                                <h4>クラス変更</h4>
+                            </button>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="select.html">クラス変更</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="add" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                管理者
+                            </a>
+                            <ul class="dropdown-menu" id="kkk">
+                                <button id="mg" onclick="location.href='/manager/home.html'">
+                                    <h4>データ一覧</h4>
+                                </button>
+
+                                <li>
+                                    <button id="mg" onclick="location.href='/manager/detaIn.html'">
+                                        <h4>データ追加</h4>
+                                    </button>
+                                <li>
+                                    <button id="mg" onclick="location.href='/manager/log.html'">
+                                        <h4>出席一覧</h4>
+                                    </button>
+                                </li>
+
+
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="https://docs.google.com/spreadsheets/d/1JL30KOR5HgNxvA1X0EXySPCCdnIIactZsgA23-YOegw/edit?gid=0#gid=0"
-                                target="_blank">スプレッドシート</a>
-                        </li>
+
                     </ul>
+
                 </div>
             </div>
         </div>
-    </nav> -->
+    </nav>
+
+
+
 
 
 

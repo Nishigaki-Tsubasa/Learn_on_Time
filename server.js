@@ -115,7 +115,7 @@ async function addDbData(studentId, timestamp) {
         const db = client.db(dbName);
         const collection = db.collection("studentAll");
 
-        console.log(timestamp);
+        //console.log(timestamp);
         const result = await collection.updateOne(
             { 学籍番号: studentId },
             {
@@ -379,7 +379,7 @@ app.post("/updateURL", async (req, res) => {
         const classData = req.body.classData;
 
 
-        console.log(classData);
+        //console.log(classData);
 
         const result = await collection.updateOne(
             { クラス: req.params.classData }, // 更新条件 (_id)
@@ -542,6 +542,61 @@ app.delete('/api/attendance/:id', async (req, res) => {
 
     } catch (error) {
         res.status(500).send(error);
+    }
+});
+
+//生徒の詳細情報表示
+app.get('/api/attendance/:studentId', async (req, res) => {
+    const client = new MongoClient(mongoUrl);
+    const studentId = req.params.studentId;
+
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('studentAll');
+        //console.log(studentId);
+
+        let attendanceByDate = []; // 配列として初期化
+
+
+
+        const result = await collection.findOne({ 学籍番号: studentId });
+        // console.log(result);
+        // console.log(result.出席.日付);
+        // console.log(result.出席);
+        // console.log(result.出席番号);
+
+        attendanceByDate[0] = await collection.findOne(
+            { 学籍番号: studentId },
+            { projection: { 出席: 0 } }
+        );
+
+
+        result.出席.forEach(record => {
+
+            // 学生の名前と出席時間をオブジェクトとして配列に追加
+            attendanceByDate.push({
+
+                出席時間: record.日付, // 出席時間を保存
+                id: record.id
+
+            });
+
+        });
+
+
+
+        //console.log(attendanceByDate);
+
+        res.json(attendanceByDate);
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Internal Server Error');
+    } finally {
+        await client.close();
     }
 });
 
