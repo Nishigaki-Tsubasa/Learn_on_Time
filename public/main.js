@@ -233,26 +233,26 @@ document.addEventListener("DOMContentLoaded", () => {
 //     }
 // }
 
-const menu = document.getElementById('menu');
-const menuLogo = document.getElementById('menuLogo');
+// const menu = document.getElementById('menu');
+// const menuLogo = document.getElementById('menuLogo');
 
-// マウスが乗ったとき
-menuLogo.addEventListener('mouseenter', () => {
-    menu.style.display = 'flex';
-});
-
-// マウスが乗ったとき
-menu.addEventListener('mouseenter', () => {
-    menu.style.display = 'flex';
-});
-
-// // マウスが離れたとき
-// menuL.addEventListener('mouseleave', () => {
-//     menu.style.display = 'none';
+// // マウスが乗ったとき
+// menuLogo.addEventListener('mouseenter', () => {
+//     menu.style.display = 'flex';
 // });
 
-menu.addEventListener('mouseleave', () => {
-    menu.style.display = 'none';
-});
+// // マウスが乗ったとき
+// menu.addEventListener('mouseenter', () => {
+//     menu.style.display = 'flex';
+// });
+
+// // // マウスが離れたとき
+// // menuL.addEventListener('mouseleave', () => {
+// //     menu.style.display = 'none';
+// // });
+
+// menu.addEventListener('mouseleave', () => {
+//     menu.style.display = 'none';
+// });
 
 

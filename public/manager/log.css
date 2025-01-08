@@ -1,5 +1,894 @@
  /* 基本のスタイル */
  body {
+     font-family: 'Arial', sans-serif;
+     margin: 0;
+     padding: 20px;
+     background-color: #f9f9f9;
+     color: #333;
+ }
+
+ /* フォームスタイル */
+ form {
+     margin-bottom: 20px;
+ }
+
+
+ label {
+     font-size: 16px;
+     margin-right: 5px;
+     color: #333;
+ }
+
+
+ input[type="date"] {
+     padding: 4px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     text-align: center;
+ }
+
+
+ /* 見出しスタイル */
+ /* h1 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    /* 中央揃え */
+
+
+ */
+
+ /* 出席リストのスタイル */
+ #attendance-list {
+     margin-bottom: 20px;
+     text-align: center;
+     /* 中央揃え */
+ }
+
+ /* テーブルスタイル */
+ table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 10px;
+     background-color: #fff;
+ }
+
+ thead th {
+     background-color: #2980b9;
+     color: white;
+     padding: 10px;
+     text-align: center;
+     /* 中央揃え */
+ }
+
+ tbody td {
+     border: 1px solid #ddd;
+     padding: 10px;
+     text-align: center;
+     /* 中央揃え */
+ }
+
+ tbody tr:nth-child(even) {
+     background-color: #f2f2f2;
+ }
+
+ /* ボタンスタイル */
+ button {
+     background-color: #e74c3c;
+     color: white;
+     border: none;
+     padding: 8px 12px;
+     cursor: pointer;
+     border-radius: 4px;
+     text-align: center;
+ }
+
+ /* ボタンを中央に配置 */
+ #attendance-list,
+ form {
+     display: flex;
+     justify-content: center;
+     /* 横方向に中央揃え */
+     margin-bottom: 20px;
+ }
+
+ /* ボタンホバー時のスタイル */
+ button:hover {
+     background-color: #c0392b;
+ }
+
+ /* レスポンシブデザイン */
+ @media (max-width: 768px) {
+     table {
+         font-size: 14px;
+     }
+
+     input[type="date"] {
+         width: 100%;
+     }
+ }
+
+
+ body {
+     font-family: Arial, sans-serif;
+     background-color: #f9f9f9;
+     color: #333;
+     margin: 0;
+     padding: 0;
+ }
+
+ nav {
+     background-color: #4a90e2;
+     color: white;
+     padding: 0.8rem;
+     display: flex;
+     align-items: center;
+     position: fixed;
+     width: 100%;
+     top: 0;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     z-index: 1000;
+     justify-content: space-between;
+ }
+
+ .nav-brand {
+     display: flex;
+     align-items: center;
+ }
+
+ .nav-icon {
+     width: 40px;
+     height: 40px;
+     margin-right: 0.5rem;
+     /* アイコンとテキストの間隔を調整 */
+ }
+
+ .nav-title {
+     font-size: 1.5rem;
+     font-weight: bold;
+ }
+
+ .nav-links {
+     display: flex;
+     align-items: center;
+ }
+
+ .nav-links a,
+ .nav-links button {
+     color: white;
+     text-decoration: none;
+     margin: 0 1rem;
+     font-weight: bold;
+     background: none;
+     border: none;
+     cursor: pointer;
+ }
+
+ .nav-links a:hover,
+ .nav-links button:hover {
+     text-decoration: underline;
+ }
+
+ .nav-brand {
+     display: flex;
+     /* フレックスボックスで横並びにする */
+     align-items: center;
+     /* 縦方向を中央揃えにする */
+ }
+
+ .nav-icon {
+     width: 40px;
+     /* アイコンの幅 */
+     height: 40px;
+     /* アイコンの高さ */
+     margin-right: 0.5rem;
+     /* アイコンとテキストの間のスペース */
+ }
+
+ .nav-title {
+     font-size: 1.5rem;
+     /* テキストサイズ */
+     font-weight: bold;
+     /* 太字 */
+     color: white;
+     /* テキスト色 */
+ }
+
+
+ nav a,
+ nav button {
+     color: white;
+     text-decoration: none;
+     margin: 0 1rem;
+     font-weight: bold;
+     background: none;
+     border: none;
+     cursor: pointer;
+ }
+
+ nav a:hover,
+ nav button:hover {
+     text-decoration: underline;
+ }
+
+ h1 {
+     font-size: 2.5rem;
+     color: #4a90e2;
+     text-align: center;
+ }
+
+ /* アイコンとロゴ */
+ .nav-icon {
+     width: 40px;
+     height: 40px;
+     margin-right: 10px;
+ }
+
+ nav div:first-of-type {
+     display: flex;
+     align-items: center;
+     font-size: 1.5rem;
+     font-weight: bold;
+ }
+
+ /* リンクとボタン */
+ nav div:last-child {
+     display: flex;
+     align-items: center;
+     gap: 15px;
+     /* リンクとボタンの間隔 */
+ }
+
+ nav a,
+ nav button {
+     color: white;
+     text-decoration: none;
+     font-weight: bold;
+     background: none;
+     border: none;
+     cursor: pointer;
+     padding: 0.5rem 1rem;
+     border-radius: 5px;
+     transition: background-color 0.3s ease, color 0.3s ease;
+ }
+
+
+
+ nav a:hover,
+ nav button:hover {
+     background-color: white;
+     color: #4a90e2;
+ }
+
+ nav button {
+     background-color: #28a745;
+     color: white;
+ }
+
+ nav button:hover {
+     background-color: #218838;
+ }
+
+ /* レスポンシブ対応 */
+ @media (max-width: 768px) {
+     nav {
+         flex-wrap: wrap;
+         padding: 1rem;
+     }
+
+     nav div:last-child {
+         flex-direction: column;
+         width: 100%;
+         gap: 10px;
+         text-align: center;
+     }
+
+     nav a,
+     nav button {
+         width: 100%;
+         font-size: 1rem;
+     }
+ }
+
+ /* ヘッダーと現在時刻 */
+ h1 {
+     font-size: 2rem;
+     color: #4a90e2;
+     text-align: center;
+     margin-bottom: 1rem;
+ }
+
+
+
+
+
+
+
+ #main-container {
+     display: flex;
+     justify-content: space-between;
+     margin-top: 2rem;
+ }
+
+ /* #scanner-container,
+#attendance-section {
+width: 48%;
+}
+
+#scanner-container {
+height: 300px;
+background-color: #f0f0f0;
+border: 1px solid #ccc;
+border-radius: 5px;
+display: flex;
+justify-content: center;
+align-items: center;
+color: #888;
+} */
+
+ #scanner-container {
+
+     height: 480px;
+     width: 700px;
+     background-color: #f0f0f0;
+     justify-content: center;
+     text-align: center;
+
+     position: relative;
+
+     /* align-items: center; */
+     /* color: #888; */
+ }
+
+ #attendance-section {
+     flex: 3;
+
+ }
+
+ #scanner-container {
+     flex: 7;
+
+
+ }
+
+
+ #attendance-section h2 {
+     text-align: center;
+ }
+
+ #attendanceList {
+     list-style: none;
+     padding: 0;
+     border-top: 1px solid #ccc;
+     max-height: 300px;
+     overflow-y: auto;
+ }
+
+ #attendanceList li {
+     padding: 0.5rem;
+     border-bottom: 1px solid #ccc;
+ }
+
+ #barcodeValue {
+     font-weight: bold;
+     color: #4a90e2;
+ }
+
+ .demo {
+     /* display: flex; */
+     text-align: center;
+     /* padding-right: 70px; */
+ }
+
+ .barcodeValue {
+     text-align: center;
+ }
+
+
+
+
+ .container {
+     max-width: 1000px;
+     margin: 100px auto 0;
+     padding: 1rem;
+     background-color: white;
+     border-radius: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+ }
+
+
+
+
+
+ .menu-icon {
+     width: 35px;
+     height: 30px;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     cursor: pointer;
+ }
+
+ .menu-icon div {
+     width: 100%;
+     height: 5px;
+     background-color: #fff;
+ }
+
+
+
+
+
+ .nav-brand {
+     flex: 2px;
+ }
+
+ #space {
+     width: 35px;
+     height: 30px;
+ }
+
+ #navdiv {
+     text-align: center;
+     justify-content: space-between;
+     width: 100%;
+
+ }
+
+
+
+ /* 基本のスタイル */
+ body {
+     font-family: 'Arial', sans-serif;
+     margin: 0;
+     padding: 20px;
+     background-color: #f9f9f9;
+     color: #333;
+ }
+
+ /* フォームスタイル */
+ form {
+     margin-bottom: 20px;
+ }
+
+
+ label {
+     font-size: 16px;
+     margin-right: 5px;
+     color: #333;
+ }
+
+
+ input[type="date"] {
+     padding: 4px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     text-align: center;
+ }
+
+
+ /* 見出しスタイル */
+ /* h1 {
+   font-size: 24px;
+   color: #2c3e50;
+   margin-bottom: 20px;
+   text-align: center;
+   /* 中央揃え */
+
+
+ */
+
+ /* 出席リストのスタイル */
+ #attendance-list {
+     margin-bottom: 20px;
+     text-align: center;
+     /* 中央揃え */
+ }
+
+ /* テーブルスタイル */
+ table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 10px;
+     background-color: #fff;
+ }
+
+ thead th {
+     background-color: #2980b9;
+     color: white;
+     padding: 10px;
+     text-align: center;
+     /* 中央揃え */
+ }
+
+ tbody td {
+     border: 1px solid #ddd;
+     padding: 10px;
+     text-align: center;
+     /* 中央揃え */
+ }
+
+ tbody tr:nth-child(even) {
+     background-color: #f2f2f2;
+ }
+
+ /* ボタンスタイル */
+ button {
+     background-color: #e74c3c;
+     color: white;
+     border: none;
+     padding: 8px 12px;
+     cursor: pointer;
+     border-radius: 4px;
+     text-align: center;
+ }
+
+ /* ボタンを中央に配置 */
+ #attendance-list,
+ form {
+     display: flex;
+     justify-content: center;
+     /* 横方向に中央揃え */
+     margin-bottom: 20px;
+ }
+
+ /* ボタンホバー時のスタイル */
+ button:hover {
+     background-color: #c0392b;
+ }
+
+ /* レスポンシブデザイン */
+ @media (max-width: 768px) {
+     table {
+         font-size: 14px;
+     }
+
+     input[type="date"] {
+         width: 100%;
+     }
+ }
+
+
+ body {
+     font-family: Arial, sans-serif;
+     background-color: #f9f9f9;
+     color: #333;
+     margin: 0;
+     padding: 0;
+ }
+
+ nav {
+     background-color: #4a90e2;
+     color: white;
+     padding: 0.8rem;
+     display: flex;
+     align-items: center;
+     position: fixed;
+     width: 100%;
+     top: 0;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     z-index: 1000;
+     justify-content: space-between;
+ }
+
+ .nav-brand {
+     display: flex;
+     align-items: center;
+ }
+
+ .nav-icon {
+     width: 40px;
+     height: 40px;
+     margin-right: 0.5rem;
+     /* アイコンとテキストの間隔を調整 */
+ }
+
+ .nav-title {
+     font-size: 1.5rem;
+     font-weight: bold;
+ }
+
+ .nav-links {
+     display: flex;
+     align-items: center;
+ }
+
+ .nav-links a,
+ .nav-links button {
+     color: white;
+     text-decoration: none;
+     margin: 0 1rem;
+     font-weight: bold;
+     background: none;
+     border: none;
+     cursor: pointer;
+ }
+
+ .nav-links a:hover,
+ .nav-links button:hover {
+     text-decoration: underline;
+ }
+
+ .nav-brand {
+     display: flex;
+     /* フレックスボックスで横並びにする */
+     align-items: center;
+     /* 縦方向を中央揃えにする */
+ }
+
+ .nav-icon {
+     width: 40px;
+     /* アイコンの幅 */
+     height: 40px;
+     /* アイコンの高さ */
+     margin-right: 0.5rem;
+     /* アイコンとテキストの間のスペース */
+ }
+
+ .nav-title {
+     font-size: 1.5rem;
+     /* テキストサイズ */
+     font-weight: bold;
+     /* 太字 */
+     color: white;
+     /* テキスト色 */
+ }
+
+
+ nav a,
+ nav button {
+     color: white;
+     text-decoration: none;
+     margin: 0 1rem;
+     font-weight: bold;
+     background: none;
+     border: none;
+     cursor: pointer;
+ }
+
+ nav a:hover,
+ nav button:hover {
+     text-decoration: underline;
+ }
+
+ h1 {
+     font-size: 2.5rem;
+     color: #4a90e2;
+     text-align: center;
+ }
+
+ /* アイコンとロゴ */
+ .nav-icon {
+     width: 40px;
+     height: 40px;
+     margin-right: 10px;
+ }
+
+ nav div:first-of-type {
+     display: flex;
+     align-items: center;
+     font-size: 1.5rem;
+     font-weight: bold;
+ }
+
+ /* リンクとボタン */
+ nav div:last-child {
+     display: flex;
+     align-items: center;
+     gap: 15px;
+     /* リンクとボタンの間隔 */
+ }
+
+ nav a,
+ nav button {
+     color: white;
+     text-decoration: none;
+     font-weight: bold;
+     background: none;
+     border: none;
+     cursor: pointer;
+     padding: 0.5rem 1rem;
+     border-radius: 5px;
+     transition: background-color 0.3s ease, color 0.3s ease;
+ }
+
+
+
+
+ nav a:hover,
+ nav button:hover {
+     background-color: rgb(79, 101, 182);
+     color: #e1e1e1;
+ }
+
+ nav button {
+     background-color: #28a745;
+     color: white;
+ }
+
+ nav button:hover {
+     background-color: rgb(79, 101, 182);
+ }
+
+ /* レスポンシブ対応 */
+ @media (max-width: 768px) {
+     nav {
+         flex-wrap: wrap;
+         padding: 1rem;
+     }
+
+     nav div:last-child {
+         flex-direction: column;
+         width: 100%;
+         gap: 10px;
+         text-align: center;
+     }
+
+     nav a,
+     nav button {
+         width: 100%;
+         font-size: 1rem;
+     }
+ }
+
+ /* ヘッダーと現在時刻 */
+ h1 {
+     font-size: 2rem;
+     color: #4a90e2;
+     text-align: center;
+     margin-bottom: 1rem;
+ }
+
+
+
+
+
+
+
+ #main-container {
+     display: flex;
+     justify-content: space-between;
+     margin-top: 2rem;
+ }
+
+ /* #scanner-container,
+#attendance-section {
+width: 48%;
+}
+
+#scanner-container {
+height: 300px;
+background-color: #f0f0f0;
+border: 1px solid #ccc;
+border-radius: 5px;
+display: flex;
+justify-content: center;
+align-items: center;
+color: #888;
+} */
+
+ #scanner-container {
+
+     height: 480px;
+     width: 700px;
+     background-color: #f0f0f0;
+     justify-content: center;
+     text-align: center;
+
+     position: relative;
+
+     /* align-items: center; */
+     /* color: #888; */
+ }
+
+ #attendance-section {
+     flex: 3;
+
+ }
+
+ #scanner-container {
+     flex: 7;
+
+
+ }
+
+
+ #attendance-section h2 {
+     text-align: center;
+ }
+
+ #attendanceList {
+     list-style: none;
+     padding: 0;
+     border-top: 1px solid #ccc;
+     max-height: 300px;
+     overflow-y: auto;
+ }
+
+ #attendanceList li {
+     padding: 0.5rem;
+     border-bottom: 1px solid #ccc;
+ }
+
+ #barcodeValue {
+     font-weight: bold;
+     color: #4a90e2;
+ }
+
+ .demo {
+     /* display: flex; */
+     text-align: center;
+     /* padding-right: 70px; */
+ }
+
+ .barcodeValue {
+     text-align: center;
+ }
+
+
+
+
+ .container {
+     max-width: 1000px;
+     margin: 100px auto 0;
+     padding: 1rem;
+     background-color: white;
+     border-radius: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+ }
+
+
+
+
+
+ .menu-icon {
+     width: 35px;
+     height: 30px;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     cursor: pointer;
+ }
+
+ .menu-icon div {
+     width: 100%;
+     height: 5px;
+     background-color: #fff;
+ }
+
+
+
+
+
+ .nav-brand {
+     flex: 2px;
+ }
+
+ #space {
+     width: 35px;
+     height: 30px;
+ }
+
+ #navdiv {
+     text-align: center;
+     justify-content: space-between;
+     width: 100%;
+
+ }
+
+ #date {
+     font-size: 1.5rem;
+     color: #4a90e2;
+     text-align: center;
+     margin-bottom: 1rem;
+ }
+
+
+ /* 基本のスタイル */
+ body {
      font-family: Arial, sans-serif;
      margin: 0;
      padding: 0;
@@ -27,8 +916,8 @@
      align-items: center;
      top: 0;
      /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-     z-index: 1000;
-     justify-content: space-between; */
+    z-index: 1000;
+    justify-content: space-between; */
  }
 
  nav a {
@@ -316,11 +1205,11 @@
 
 
  /* 
- nav a:hover,
- nav button:hover {
-     background-color: white;
-     color: #4a90e2;
- } */
+nav a:hover,
+nav button:hover {
+    background-color: white;
+    color: #4a90e2;
+} */
 
  nav button {
      background-color: #28a745;
@@ -417,18 +1306,18 @@
 
  /* #scanner-container,
 #attendance-section {
-    width: 48%;
+   width: 48%;
 }
 
 #scanner-container {
-    height: 300px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #888;
+   height: 300px;
+   background-color: #f0f0f0;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #888;
 } */
 
  #scanner-container {
@@ -636,11 +1525,11 @@
 
  /* 見出しスタイル */
  /* h1 {
-   font-size: 24px;
-   color: #2c3e50;
-   margin-bottom: 20px;
-   text-align: center;
-   /* 中央揃え */
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+  /* 中央揃え */
 
 
  */
@@ -846,7 +1735,7 @@
      /* リンクとボタンの間隔 */
  }
 
- /* nav a,
+ nav a,
  nav button {
      color: white;
      text-decoration: none;
@@ -857,7 +1746,7 @@
      padding: 0.5rem 1rem;
      border-radius: 5px;
      transition: background-color 0.3s ease, color 0.3s ease;
- } */
+ }
 
 
 

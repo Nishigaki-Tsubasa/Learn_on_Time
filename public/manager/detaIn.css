@@ -13,7 +13,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .form-group label {
@@ -37,7 +37,7 @@ body {
     flex: 1;
 }
 
-button {
+#set {
     width: 100%;
     padding: 10px;
     background-color: #007BFF;
@@ -47,11 +47,11 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+#set:hover {
     background-color: #0056b3;
 }
 
-.btn {
+#set {
     background-color: #007bff;
     color: white;
     padding: 0.75rem;
@@ -63,14 +63,229 @@ button:hover {
     margin-top: 1rem;
 }
 
-.btn:hover {
+#set:hover {
     background-color: #0056b3;
 }
 
-.btn-reset {
-    background-color: #ff6b6b;
+
+.nav-brand {
+    flex: 2px;
 }
 
-.btn-reset:hover {
-    background-color: #cc0000;
+#space {
+    width: 35px;
+    height: 30px;
+}
+
+#navdiv {
+    text-align: center;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+/* アイコンとロゴ */
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #4a90e2;
+    color: white;
+    padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    justify-content: space-between;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 0.5rem;
+    /* アイコンとテキストの間隔を調整 */
+}
+
+.nav-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a,
+.nav-links button {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+    text-decoration: underline;
+}
+
+.nav-brand {
+    display: flex;
+    /* フレックスボックスで横並びにする */
+    align-items: center;
+    /* 縦方向を中央揃えにする */
+}
+
+.nav-icon {
+    width: 40px;
+    /* アイコンの幅 */
+    height: 40px;
+    /* アイコンの高さ */
+    margin-right: 0.5rem;
+    /* アイコンとテキストの間のスペース */
+}
+
+.nav-title {
+    font-size: 1.5rem;
+    /* テキストサイズ */
+    font-weight: bold;
+    /* 太字 */
+    color: white;
+    /* テキスト色 */
+}
+
+
+nav a,
+nav button {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav a:hover,
+nav button:hover {
+    text-decoration: underline;
+}
+
+
+/* アイコンとロゴ */
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+nav div:first-of-type {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* リンクとボタン */
+nav div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* リンクとボタンの間隔 */
+}
+
+nav a,
+nav button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+nav a:hover,
+nav button:hover {
+    background-color: rgb(79, 101, 182);
+    color: #e1e1e1;
+}
+
+nav button {
+    background-color: #28a745;
+    color: white;
+}
+
+nav button:hover {
+    background-color: rgb(79, 101, 182);
+}
+
+
+.container {
+    max-width: 1000px;
+    margin: 70px auto 0px auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.nav-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a,
+.nav-links button {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+    text-decoration: underline;
+}
+
+.nav-brand {
+    display: flex;
+    /* フレックスボックスで横並びにする */
+    align-items: center;
+    /* 縦方向を中央揃えにする */
 }
