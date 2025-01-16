@@ -289,3 +289,70 @@ nav button:hover {
     align-items: center;
     /* 縦方向を中央揃えにする */
 }
+
+
+.pe-3 {
+    padding-right: 1rem !important;
+}
+
+.justify-content-end {
+    justify-content: flex-end !important;
+}
+
+.flex-grow-1 {
+    flex-grow: 1 !important;
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-x: 0;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-font-weight: ;
+    --bs-nav-link-color: var(--bs-navbar-color);
+    --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
+    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+#navdiv {
+    text-align: center;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+#add {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    /* padding: 10px 20px; */
+    /* font-size: 16px; */
+    cursor: pointer;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+h4 {
+    font-size: 20px;
+}
+
+nav div:first-of-type {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
+}
+
+::after,
+::before {
+    box-sizing: border-box;
+}
