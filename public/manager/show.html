@@ -111,6 +111,7 @@
 
 
         document.addEventListener('DOMContentLoaded', function () {
+            console.log(attendanceByDate[1].id);
 
             let ans = document.getElementById("ans");
             ans.innerHTML = '';
@@ -137,6 +138,54 @@
 
 
 
+        // 出席データの削除処理
+        function deleteAttendance(id) {
+            const studentId = attendanceByDate[0].学籍番号;
+            fetch(`/api/attendance/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+
+
+                    //console.log(data.message);
+                    // 再取得して更新
+                    fetch(`/api/attendance/${studentId}`, {
+                        method: 'GET',
+                    })
+                        .then(response => response.json())
+                        .then(attendanceByDate => {
+                            console.log(attendanceByDate);
+                            console.log(attendanceByDate[1].id);
+                            localStorage.setItem('attendanceByDate', JSON.stringify(attendanceByDate));
+
+
+                            let ans = document.getElementById("ans");
+                            ans.innerHTML = '';
+
+                            for (let i = 1; i < attendanceByDate.length; i++) {
+                                const tbody = document.querySelector("#dataTable tbody");
+                                const row = document.createElement("tr");
+
+
+                                row.innerHTML = `
+                                 <td>${attendanceByDate[0].名前}</td>
+                                 <td>${attendanceByDate[i].出席時間}</td>
+             
+                                 <td>
+                                <button onclick="deleteAttendance('${attendanceByDate[i].id}')">削除</button>
+                                </td>
+                   ` ;
+                                tbody.appendChild(row);
+
+                            }
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching attendance data:', error);
+                });
+
+        }
 
     </script>
 </body>
