@@ -94,7 +94,7 @@ studentコレクションを選択し、**ADD DATA**の**import json or csv file
 https://github.com/Nishigaki-Tsubasa/MongoDB
 
 DB_Dataフォルダーを選択
-student.class.jsonをダウンロードする
+student.studentAll.jsonをダウンロードする
 ```
 ![](assets\20250204113013.png)
 
